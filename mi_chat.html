@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .contenedor {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        #estado {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        #chat {
+            border: 1px solid #ccc;
+            height: 250px;
+            overflow-y: auto;
+            padding: 10px;
+            text-align: left;
+            background: #fafafa;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 70%;
+            padding: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="contenedor">
+    <h1>💬 Mi Chat</h1>
+    <div id="estado"></div>
+    <div id="chat"></div>
+    <input type="text" id="mensaje" placeholder="Escribe un mensaje...">
+    <button onclick="enviarMensaje()">Enviar</button>
+</div>
+
+<script>
+function estaAbierto() {
+    const hora = new Date().getHours();
+    return hora >= 6 && hora < 9;
+}
+
+function actualizarEstado() {
+    const estado = document.getElementById("estado");
+    if (estaAbierto()) {
+        estado.innerHTML = "🟢 Chat abierto";
+        estado.style.color = "green";
+    } else {
+        estado.innerHTML = "🔴 Chat cerrado (abre a las 6:00 AM)";
+        estado.style.color = "red";
+    }
+}
+
+function enviarMensaje() {
+    if (!estaAbierto()) {
+        alert("El chat está cerrado.");
+        return;
+    }
+
+    const input = document.getElementById("mensaje");
+    const texto = input.value.trim();
+    if (texto === "") return;
+
+    const chat = document.getElementById("chat");
+    const mensaje = document.createElement("p");
+    mensaje.textContent = "Tú: " + texto;
+    chat.appendChild(mensaje);
+
+    input.value = "";
+    chat.scrollTop = chat.scrollHeight;
+}
+
+actualizarEstado();
+setInterval(actualizarEstado, 60000);
+</script>
+</body>
+</html>
